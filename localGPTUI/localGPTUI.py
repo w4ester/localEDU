@@ -24,7 +24,7 @@ def home_page():
             print(f"User Prompt: {user_prompt}")
 
             main_prompt_url = f"{API_HOST}/prompt_route"
-            response = requests.post(main_prompt_url, data={"user_prompt": user_prompt})
+            response = requests.post(main_prompt_url, data={"user_prompt": user_prompt}, timeout=60)
             print(response.status_code)  # print HTTP response status code for debugging
             if response.status_code == 200:
                 # print(response.json())  # Print the JSON data from the response
@@ -32,7 +32,7 @@ def home_page():
         elif "documents" in request.files:
             delete_source_url = f"{API_HOST}/delete_source"  # URL of the /api/delete_source endpoint
             if request.form.get("action") == "reset":
-                response = requests.get(delete_source_url)
+                response = requests.get(delete_source_url, timeout=60)
 
             save_document_url = f"{API_HOST}/save_document"
             run_ingest_url = f"{API_HOST}/run_ingest"  # URL of the /api/run_ingest endpoint
@@ -43,10 +43,10 @@ def home_page():
                 with tempfile.SpooledTemporaryFile() as f:
                     f.write(file.read())
                     f.seek(0)
-                    response = requests.post(save_document_url, files={"document": (filename, f)})
+                    response = requests.post(save_document_url, files={"document": (filename, f)}, timeout=60)
                     print(response.status_code)  # print HTTP response status code for debugging
             # Make a GET request to the /api/run_ingest endpoint
-            response = requests.get(run_ingest_url)
+            response = requests.get(run_ingest_url, timeout=60)
             print(response.status_code)  # print HTTP response status code for debugging
 
     # Display the form for GET request
