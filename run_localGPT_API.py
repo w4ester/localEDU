@@ -21,6 +21,7 @@ from constants import CHROMA_SETTINGS, EMBEDDING_MODEL_NAME, PERSIST_DIRECTORY, 
 
 # API queue addition
 from threading import Lock
+from security import safe_command
 
 request_lock = Lock()
 
@@ -132,7 +133,7 @@ def run_ingest_route():
             run_langest_commands.append("--device_type")
             run_langest_commands.append(DEVICE_TYPE)
 
-        result = subprocess.run(run_langest_commands, capture_output=True)
+        result = safe_command.run(subprocess.run, run_langest_commands, capture_output=True)
         if result.returncode != 0:
             return "Script execution failed: {}".format(result.stderr.decode("utf-8")), 500
         # load the vectorstore
