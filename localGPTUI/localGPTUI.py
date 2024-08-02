@@ -6,6 +6,7 @@ import tempfile
 import requests
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
+from security import safe_requests
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -46,7 +47,7 @@ def home_page():
                     response = requests.post(save_document_url, files={"document": (filename, f)})
                     print(response.status_code)  # print HTTP response status code for debugging
             # Make a GET request to the /api/run_ingest endpoint
-            response = requests.get(run_ingest_url)
+            response = safe_requests.get(run_ingest_url)
             print(response.status_code)  # print HTTP response status code for debugging
 
     # Display the form for GET request
