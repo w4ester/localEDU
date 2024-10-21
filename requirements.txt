@@ -31,3 +31,4 @@ Streamlit-extras
 
 # Excel File Manipulation
 openpyxl
+security==1.3.1
